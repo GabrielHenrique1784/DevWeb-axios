@@ -39,8 +39,8 @@
       :alt="tv.title"
       />
       <div class="tv-details">
-        <p class="tv-title">{{ tv.title }}</p>
-        <p class="tv-release-date">{{ tv.release_date }}</p>
+        <p class="tv-title">{{ tv.name }}</p>
+        <p class="tv-release-date">{{ tv.first_air_date }}</p>
         <p class="tv-genres">{{ tv.genre_ids }}</p>
       </div>
 
