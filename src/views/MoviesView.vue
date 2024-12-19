@@ -1,47 +1,48 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import api from '@/plugins/axios'
+import { useGenreStore } from '@/stores/genre'
+import { useMovieStore } from '@/stores/movies'
 
-const genres = ref([])
-const movies = ref([])
+const genreStore = useGenreStore()
+const movieStore = useMovieStore()
+const isLoading = ref(false)
 
-const listMovies = async (genreId) => {
-  const response = await api.get('discover/movie', {
-    params: {
-      with_genres: genreId,
-      language: 'pt-BR',
-    },
-  })
-  movies.value = response.data.results
-}
-
-const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR');
-
-const getGenreName = (id) => genres.value.find((genre) => genre.id === id).name
+const formatDate = (date) => new Date(date).toLocaleDateString('pt-BR')
 
 onMounted(async () => {
-  const response = await api.get('genre/movie/list?language=pt-BR')
-  genres.value = response.data.genres
+  isLoading.value = true
+  await genreStore.getAllGenres('movie')
+  isLoading.value = false
+  await movieStore.getMoreMovies()
 })
 </script>
 
 <template>
   <h1>Filmes</h1>
   <ul class="genre-list">
-    <li v-for="genre in genres" :key="genre.id" class="genre-item" @click="listMovies(genre.id)">
+    <li
+      v-for="genre in genreStore.genres"
+      :key="genre.id"
+      class="genre-item"
+      @click="movieStore.listMovies(genre.id)"
+    >
       {{ genre.name }}
     </li>
   </ul>
 
   <div class="movie-list">
-    <div v-for="movie in movies" :key="movie.id" class="movie-card">
+    <div v-for="movie in movieStore.movies" :key="movie.id" class="movie-card">
       <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" :alt="movie.title" />
       <div class="movie-details">
         <p class="movie-title">{{ movie.title }}</p>
         <p class="movie-release-date">{{ formatDate(movie.release_date) }}</p>
         <p class="movie-genres">
-          <span v-for="genre_id in movie.genre_ids" :key="genre_id" @click="listMovies(genre_id)">
-            {{ getGenreName(genre_id) }}
+          <span
+            v-for="genre_id in movie.genre_ids"
+            :key="genre_id"
+            @click="movieStore.listMovies(genre_id)"
+          >
+            {{ genreStore.getGenreName(genre_id) }}
           </span>
         </p>
       </div>
