@@ -4,20 +4,19 @@ import api from '@/plugins/axios'
 
 export const useMovieStore = defineStore('movie', () => {
   const state = reactive({
-    movies: [],  // Lista de filmes para o gênero selecionado
-    favorites: [],  // Lista de filmes favoritos
-    loading: false,  // Estado para controlar o carregamento
-    error: null,  // Mensagem de erro
+    movies: [],  
+    favorites: [], 
+    loading: false, 
+    error: null,  
   })
 
   const movies = computed(() => state.movies)
   const favorites = computed(() => state.favorites)
 
-  // Função para listar filmes por gênero
   const listMovies = async (genreId) => {
     state.loading = true
     state.error = null
-    state.movies = []  // Limpa a lista de filmes antes de buscar
+    state.movies = []  
 
     try {
       const response = await api.get('discover/movie', {
@@ -35,7 +34,6 @@ export const useMovieStore = defineStore('movie', () => {
     }
   }
 
-  // Função para buscar mais filmes por gênero
   const getMoreMovies = async () => {
     state.loading = true
     state.error = null
@@ -49,7 +47,6 @@ export const useMovieStore = defineStore('movie', () => {
       ]
       let allMovies = []
       
-      // Busca filmes por gênero
       for (let i = 1; i <= genres.length; i++) {
         const response = await api.get('discover/movie', {
           params: {
@@ -61,7 +58,7 @@ export const useMovieStore = defineStore('movie', () => {
         allMovies = [...allMovies, ...response.data.results]
       }
 
-      state.movies = allMovies.slice(0, 30)  // Limita a 30 filmes
+      state.movies = allMovies.slice(0, 30)  
     } catch (err) {
       state.error = 'Erro ao carregar filmes'
     } finally {
@@ -69,7 +66,6 @@ export const useMovieStore = defineStore('movie', () => {
     }
   }
 
-  // Função para favoritar um filme
   const favoriteMovie = (movie) => {
     if (!state.favorites.find(fav => fav.id === movie.id)) {
       state.favorites.push(movie)
@@ -79,7 +75,6 @@ export const useMovieStore = defineStore('movie', () => {
     }
   }
 
-  // Função para desfavoritar um filme
   const unfavoriteMovie = (movie) => {
     const index = state.favorites.findIndex(fav => fav.id === movie.id)
     if (index !== -1) {
@@ -90,7 +85,6 @@ export const useMovieStore = defineStore('movie', () => {
     }
   }
 
-  // Função para verificar se um filme está nos favoritos
   const isFavorite = (movie) => {
     return state.favorites.some(fav => fav.id === movie.id)
   }

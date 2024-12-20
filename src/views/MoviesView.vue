@@ -17,7 +17,6 @@ onMounted(async () => {
 })
 
 const addToFavorites = (movie) => {
-  // Verifica se o filme está nos favoritos
   if (movieStore.isFavorite(movie)) {
     movieStore.unfavoriteMovie(movie)
   } else {
@@ -26,7 +25,6 @@ const addToFavorites = (movie) => {
 }
 
 const watchMovie = (movie) => {
-  // Função para redirecionar para o filme ou abrir o player
   console.log(`Assistindo ${movie.title}`);
 }
 </script>
@@ -76,7 +74,6 @@ const watchMovie = (movie) => {
 
 
 <style scoped>
-/* Background colors */
 body {
   background-color: #070707;
   color: #fff;
@@ -87,7 +84,6 @@ h1 {
   color: #fff;
 }
 
-/* Genre list */
 .genre-list {
   display: flex;
   justify-content: center;
@@ -112,10 +108,10 @@ h1 {
   box-shadow: 0 0 0.5rem #131819;
 }
 
-/* Movie list */
+
 .movie-list {
   display: flex;
-  flex-wrap: wrap; /* Garante que os itens que não caberem em uma linha vão para a próxima */
+  flex-wrap: wrap; 
   gap: 1rem;
   justify-content: center;
   padding: 0 1rem;
@@ -131,7 +127,7 @@ h1 {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: #131819; /* Fundo mais escuro para cada card */
+  background-color: #131819; 
   color: white;
 }
 
@@ -179,7 +175,6 @@ h1 {
   box-shadow: 0 0 0.5rem #748708;
 }
 
-/* Buttons */
 .movie-buttons {
   margin-top: 1rem;
   display: flex;
@@ -206,7 +201,7 @@ h1 {
 }
 
 .favorite-button {
-  background-color: #ff9900; /* Cor laranja para o botão de favoritar */
+  background-color: #ff9900; 
 }
 
 .favorite-button:hover {
@@ -215,10 +210,10 @@ h1 {
 }
 
 .favorite-button.favorited {
-  background-color: #ff6600; /* Cor diferente para indicar que está favoritado */
+  background-color: #ff6600;
 }
 
 .favorite-button.favorited:hover {
-  background-color: #cc5200; /* Cor de hover diferente */
+  background-color: #cc5200; 
 }
 </style>

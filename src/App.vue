@@ -6,6 +6,7 @@
         <li><router-link to="/">Home</router-link></li>
         <li><router-link to="/filmes">Movies</router-link></li>
         <li><router-link to="/favoritos">Favoritos</router-link></li>
+        <li><router-link to="/tv">Tv</router-link></li>
       </ul>
       <button>Logout</button>
     </aside>
@@ -19,7 +20,7 @@
 main {
   width: 100%;
   height: 100vh;
-  display: flex; /* Mudado de grid para flex */
+  display: flex; 
 }
 
 aside {
@@ -30,12 +31,12 @@ aside {
   align-items: center;
   justify-content: flex-start;
   padding-top: 2rem;
-  position: fixed; /* Fixando a aside */
+  position: fixed; 
   top: 0;
   left: 0;
-  height: 100vh; /* A altura da aside vai ocupar 100% da tela */
-  width: 20%; /* Largura da aside */
-  z-index: 10; /* Garantir que a aside fique acima do conteúdo */
+  height: 100vh; 
+  width: 20%; 
+  z-index: 10; 
 }
 
 h1 {
@@ -100,9 +101,9 @@ button:hover {
 }
 
 section {
-  margin-left: 20%; /* Espaço para a aside fixa */
-  width: 80%; /* 80% de largura da tela */
+  margin-left: 20%; 
+  width: 80%; 
   height: 100vh;
-  overflow-y: auto; /* Permite rolagem no conteúdo */
+  overflow-y: auto; 
 }
 </style>
