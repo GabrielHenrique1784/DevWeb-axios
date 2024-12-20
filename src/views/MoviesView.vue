@@ -15,6 +15,20 @@ onMounted(async () => {
   isLoading.value = false
   await movieStore.getMoreMovies()
 })
+
+const addToFavorites = (movie) => {
+  // Verifica se o filme está nos favoritos
+  if (movieStore.isFavorite(movie)) {
+    movieStore.unfavoriteMovie(movie)
+  } else {
+    movieStore.favoriteMovie(movie)
+  }
+}
+
+const watchMovie = (movie) => {
+  // Função para redirecionar para o filme ou abrir o player
+  console.log(`Assistindo ${movie.title}`);
+}
 </script>
 
 <template>
@@ -45,46 +59,80 @@ onMounted(async () => {
             {{ genreStore.getGenreName(genre_id) }}
           </span>
         </p>
+        <div class="movie-buttons">
+          <button @click="watchMovie(movie)" class="movie-button watch-button">Assistir</button>
+          <button 
+            @click="addToFavorites(movie)" 
+            class="movie-button favorite-button" 
+            :class="{ 'favorited': movieStore.isFavorite(movie) }"
+          >
+            {{ movieStore.isFavorite(movie) ? 'Remover dos Favoritos' : 'Favoritar' }}
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
+
 <style scoped>
+/* Background colors */
+body {
+  background-color: #070707;
+  color: #fff;
+}
+
+h1 {
+  text-align: center;
+  color: #fff;
+}
+
+/* Genre list */
 .genre-list {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 2rem;
+  gap: .75rem;
   list-style: none;
   padding: 0;
   margin-bottom: 2rem;
 }
 
 .genre-item {
-  background-color: #387250;
+  background-color: #131819;
   border-radius: 1rem;
   padding: 0.5rem 1rem;
   color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .genre-item:hover {
-  cursor: pointer;
-  background-color: #4e9e5f;
-  box-shadow: 0 0 0.5rem #387250;
+  background-color: #3b4448;
+  box-shadow: 0 0 0.5rem #131819;
 }
+
+/* Movie list */
 .movie-list {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: wrap; /* Garante que os itens que não caberem em uma linha vão para a próxima */
   gap: 1rem;
+  justify-content: center;
+  padding: 0 1rem;
 }
 
 .movie-card {
-  width: 15rem;
-  height: 30rem;
+  width: 100%;
+  max-width: 15rem;
+  height: 36rem;
   border-radius: 0.5rem;
   overflow: hidden;
   box-shadow: 0 0 0.5rem #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #131819; /* Fundo mais escuro para cada card */
+  color: white;
 }
 
 .movie-card img {
@@ -95,7 +143,8 @@ onMounted(async () => {
 }
 
 .movie-details {
-  padding: 0 0.5rem;
+  padding: 0.5rem;
+  text-align: center;
 }
 
 .movie-title {
@@ -121,11 +170,55 @@ onMounted(async () => {
   color: #fff;
   font-size: 0.8rem;
   font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .movie-genres span:hover {
-  cursor: pointer;
   background-color: #455a08;
   box-shadow: 0 0 0.5rem #748708;
+}
+
+/* Buttons */
+.movie-buttons {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.movie-button {
+  padding: 0.6rem;
+  border-radius: 0.5rem;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.watch-button {
+  background-color: #387250;
+}
+
+.watch-button:hover {
+  background-color: #4e9e5f;
+  box-shadow: 0 0 0.5rem #387250;
+}
+
+.favorite-button {
+  background-color: #ff9900; /* Cor laranja para o botão de favoritar */
+}
+
+.favorite-button:hover {
+  background-color: #cc7a00;
+  box-shadow: 0 0 0.5rem #ff9900;
+}
+
+.favorite-button.favorited {
+  background-color: #ff6600; /* Cor diferente para indicar que está favoritado */
+}
+
+.favorite-button.favorited:hover {
+  background-color: #cc5200; /* Cor de hover diferente */
 }
 </style>

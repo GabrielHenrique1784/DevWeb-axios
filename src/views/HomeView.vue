@@ -1,3 +1,9 @@
-<script setup></script>
+<script setup>
+import CarroselComp from '@/components/CarroselComp.vue';
+</script>
 
-<template>skibidi</template>
+<template>
+    <div>
+        <CarroselComp />
+    </div>
+</template>
